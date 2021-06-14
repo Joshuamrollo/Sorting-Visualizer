@@ -1,0 +1,38 @@
+.sorting-main {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: block;
+  float: left;
+}
+
+.nav {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 5rem;
+  display: flex;
+}
+
+.nav-button {
+  background: none;
+  color: white;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  margin: 0rem 1rem;
+}
+
+.bar-container {
+  display: flex;
+}
+
+.bar {
+  margin: 0 0.1rem;
+  background-color: black;
+  display: inline-block;
+  width: 10px;
+}

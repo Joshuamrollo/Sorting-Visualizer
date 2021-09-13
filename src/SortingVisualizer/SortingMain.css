@@ -1,19 +1,95 @@
 .sorting-main {
-  font-size: 2rem;
+  font-size: 2.3rem;
   margin: 0;
   padding: 0;
-  width: 100%;
   display: block;
-  float: left;
 }
 
 .nav {
-  background-color: black;
+  background-color: darkgray;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0;
   width: 100%;
   min-height: 5rem;
   display: flex;
+}
+
+.button-container {
+  margin: 0;
+  padding: 0 0 0;
+  min-height: 5rem;
+  display: flex;
+  width: 100%;
+}
+
+.nav-1 {
+  background-color: black;
+  width: 45%;
+  margin: 0;
+  padding: 0;
+  min-height: 5rem;
+  display: flex;
+}
+
+.nav-2 {
+  background-color: black;
+  width: 100%;
+  margin: 0 0 0 0.5rem;
+  padding: 0;
+  min-height: 5rem;
+  display: flex;
+  float: right;
+}
+
+.nav-3 {
+  background-color: black;
+  width: 70%;
+  margin: 0 0 0 0.5rem;
+  padding: 0;
+  min-height: 5rem;
+  display: flex;
+}
+
+.slider-name {
+  color: white;
+  cursor: default;
+  user-select: none;
+  padding: 0;
+  font: inherit;
+  margin: auto 1rem;
+}
+
+.slider {
+  margin: auto 1rem;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0.3rem;
+  background: #000;
+  outline: none;
+  border: 4px solid grey;
+  border-radius: 0;
+}
+
+/* for chrome/safari */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 2rem;
+  background: #000;
+  cursor: pointer;
+  border: 3px solid grey;
+  border-radius: 0;
+}
+
+/* for firefox */
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 60px;
+  background: #000;
+  cursor: pointer;
+  border: 5px solid grey;
+  border-radius: 4px;
 }
 
 .nav-button {
@@ -23,11 +99,24 @@
   padding: 0;
   font: inherit;
   cursor: pointer;
-  margin: 0rem 1rem;
+  margin: auto;
+}
+
+.selected-button {
+  background: none;
+  color: cyan;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  margin: auto;
 }
 
 .bar-container {
   display: flex;
+  max-width: 100%;
+  justify-content: center;
+  margin: 0 2rem;
 }
 
 .bar {

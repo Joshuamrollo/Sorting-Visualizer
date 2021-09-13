@@ -1,28 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './SortingMain.css';
 
 function SortingMain() {
     const [array, setArray] = useState([]);
     const [algorithm, setAlgorithm] = useState('bubble');
+    const [speedSlider, setSpeedSlider] = useState(10);
+    const [sizeSlider, setSizeSlider] = useState(100);
+    const [isStarted, setIsStarted] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
+
+    const SPEED = speedSlider / 10;
+
+    useEffect(() => {
+        newArray();
+    }, [])
+
+    const nothing = () => {}
+
+    const handleSpeedSlider = (x) => {
+        setSpeedSlider(x.target.value);
+    }
+
+    const handleSizeSlider = (x) => {
+        if(isStarted === true && isFinished === false){
+
+        }else{
+            setSizeSlider(x.target.value);
+            newArray();
+        }
+    }
 
     const sort = () => {
+        setIsStarted(true);
         if(algorithm === 'bubble') {
             bubbleSort();
         }else if(algorithm === 'quick') {
             quickSort();
         }else if(algorithm === 'heap') {
             heapSort();
-        }else{
+        }else if(algorithm === 'merge') {
             mergeSort();
         }
     }
 
     const newArray = () => {
+        setIsStarted(false);
         let array = [];
-        for(let i = 0; i < 100; i++){
+        for(let i = 0; i < sizeSlider; i++){
             array.push(Math.floor(Math.random() * 495) + 5);
         }
         setArray(array);
+    }
+
+    const newArrayFinished = () => {
+        if(isFinished === true){
+            let array = [];
+            for(let i = 0; i < sizeSlider; i++){
+                array.push(Math.floor(Math.random() * 495) + 5);
+            }
+            setArray(array);
+            setIsFinished(false);
+            setIsStarted(false);
+        }
     }
 
     const selectBubble = () => {
@@ -38,7 +77,7 @@ function SortingMain() {
     }
 
     const selectMerge = () => {
-        setAlgorithm('poggers');
+        setAlgorithm('merge');
     }
 
     const bubbleSort = () => {
@@ -62,7 +101,6 @@ function SortingMain() {
             }
             count++;
         }
-
         animationsGo(animations);
     }
 
@@ -154,8 +192,12 @@ const mergeSort = () => {
     let animations = [];
     let newArr = [...array];
     const auxiliaryArray = newArr.slice();
-	mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, animations);
-	
+	mergeSortHelper(newArr, 0, newArr.length - 1, auxiliaryArray, animations);
+	mergeAnimations(animations);
+
+}
+
+function mergeAnimations(animations){
     for(let i = 0; i < animations.length; i++){
         let bar = document.getElementsByClassName('bar');
         const colorChange = i % 3 !== 2;
@@ -164,11 +206,16 @@ const mergeSort = () => {
             setTimeout(() => {
                 bar[animations[i][0]].style.backgroundColor = color;
                 bar[animations[i][1]].style.backgroundColor = color;
-            }, i * 10);
+            }, i * SPEED * 3);
         }else{
             setTimeout(() => {
                 bar[animations[i][0]].style.height = `${animations[i][1]}px`;
-            }, i * 10);
+            }, i * SPEED * 3);
+        }
+        if(i === animations.length - 1){
+            setTimeout(() => {
+                setIsFinished(true);
+            }, i * SPEED * 3);
         }
     }
 }
@@ -226,13 +273,18 @@ function doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animati
                 setTimeout(() => {
                     bar[animations[i][0]].style.backgroundColor = color;
                     bar[animations[i][1]].style.backgroundColor = color;
-                }, i * 10);
+                }, i * SPEED);
             }else{
                 setTimeout(() => {
                     tempHeight = bar[animations[i][0]].style.height;
                     bar[animations[i][0]].style.height = bar[animations[i][1]].style.height;
                     bar[animations[i][1]].style.height = tempHeight;
-                }, i * 10);
+                }, i * SPEED);
+            }
+            if(i === animations.length - 1){
+                setTimeout(() => {
+                    setIsFinished(true);
+                }, i * SPEED);
             }
         }
     }
@@ -240,12 +292,24 @@ function doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animati
     return (
         <div className='sorting-main'>
             <div className='nav'>
-                <button className='nav-button' onClick={sort} >Sort</button>
-                <button className='nav-button' onClick={newArray} >Create New Array</button>
-                <button className='nav-button' onClick={selectBubble} >Bubble Sort</button>
-                <button className='nav-button' onClick={selectQuick} >Quick Sort</button>
-                <button className='nav-button' onClick={selectHeap} >Heap Sort</button>
-                <button className='nav-button' onClick={selectMerge} >Merge Sort</button>
+                <div className='button-container'>
+                    <div className='nav-1'>
+                        <button className='nav-button' onClick={isStarted === false ? sort : nothing} >Sort</button>
+                        <button className='nav-button' onClick={isStarted === false ? newArray : newArrayFinished} >Create New Array</button>
+                    </div>
+                    <div className='nav-2'>
+                        <button className={algorithm === 'bubble' ? 'selected-button' : 'nav-button'} onClick={selectBubble} >Bubble Sort</button>
+                        <button className={algorithm === 'quick' ? 'selected-button' : 'nav-button'} onClick={selectQuick} >Quick Sort</button>
+                        <button className={algorithm === 'heap' ? 'selected-button' : 'nav-button'} onClick={selectHeap} >Heap Sort</button>
+                        <button className={algorithm === 'merge' ? 'selected-button' : 'nav-button'} onClick={selectMerge} >Merge Sort</button>
+                    </div>
+                    <div className='nav-3'>
+                        <div className='slider-name'>Size</div>
+                        <input type="range" min={10} max={190} value={sizeSlider} className="slider" onChange={handleSizeSlider} />
+                        <div className='slider-name'>Speed</div>
+                        <input type="range" min={2} max={20} value={speedSlider} className="slider" onChange={handleSpeedSlider} />
+                    </div>
+                </div>
             </div>
             <div className='bar-container'>
                 {array.map((x) => {

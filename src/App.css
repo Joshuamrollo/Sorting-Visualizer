@@ -1,5 +1,11 @@
 .App {
+  background-color: grey;
   margin: 0;
   padding: 0;
+  display: block;
+  min-height: 100vh;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
